@@ -13,7 +13,7 @@ const Header = ({}) => {
   const { theme, setTheme } = useTheme();
 
   return (
-    <div className="w-full flex items-center justify-between px-4 py-2 bg-primary">
+    <div className="w-full flex items-center justify-between px-4 py-2 bg-[#12121280] sticky z-50 top-0 backdrop-blur-2xl transition-colors">
       {/* First part: Logo Part */}
       <Link href={"/"}>
         <p

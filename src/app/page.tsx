@@ -1,5 +1,14 @@
-import Image from "next/image";
+import Banner from "@/components/Banner";
+import { getTopRatedMovies } from "@/lib/getMovies";
 
-export default function Home() {
-  return <main>Movie</main>;
-}
+const Home = async () => {
+  const topRatedMovies = await getTopRatedMovies();
+
+  return (
+    <main>
+      <Banner bannerMovies={topRatedMovies} />
+    </main>
+  );
+};
+
+export default Home;
