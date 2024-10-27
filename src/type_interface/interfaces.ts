@@ -8,3 +8,9 @@ export interface SearchBoxProps {
 export interface BannerProps {
   bannerMovies: Movie[];
 }
+
+export interface MovieDetailsProps {
+  params: {
+    id: string;
+  };
+}

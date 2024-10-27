@@ -1,16 +1,12 @@
 "use client";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { getImagePath } from "@/lib/helpers";
 import { Movie } from "@/type_interface/types";
 import Image from "next/image";
 import { Button } from "./ui/button";
 import { Eye } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 interface MovieWrapper {
   key: string;
@@ -19,6 +15,12 @@ interface MovieWrapper {
 
 const MovieCard = ({ movie }: MovieWrapper) => {
   const { title, backdrop_path, vote_average, id, release_date } = movie;
+  const router = useRouter();
+
+  //   Handle the view details button click
+  const handleButton = (id: number) => {
+    router.push(`/movie/${id}`);
+  };
   return (
     <Card className=" flex-shrink-0 cursor-pointer transform hover:scale-105 transition duration-500 ease-out hover:drop-shadow-lg">
       <CardContent>
@@ -44,7 +46,11 @@ const MovieCard = ({ movie }: MovieWrapper) => {
       <CardFooter className="flex flex-col gap-1">
         <h3 className="text-md w-full text-primary-text">{title}</h3>
         <h3 className="w-full">Release: {release_date}</h3>
-        <Button variant={"outline"} className="w-full mt-3">
+        <Button
+          onClick={() => handleButton(id)}
+          variant={"outline"}
+          className="w-full mt-3"
+        >
           <Eye /> View Details
         </Button>
       </CardFooter>
