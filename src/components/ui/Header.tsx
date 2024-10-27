@@ -3,19 +3,21 @@
 import Link from "next/link";
 
 import { Button } from "./button";
-import { Search } from "lucide-react";
+import { Moon, Search, Sun } from "lucide-react";
 import { useState } from "react";
 import SearchBox from "../SearchBox";
+import { useTheme } from "next-themes";
 
 const Header = ({}) => {
   const [showFullSearch, setShowFullSearch] = useState(false);
+  const { theme, setTheme } = useTheme();
 
   return (
-    <div className="w-full flex items-center justify-between p-4 bg-primary">
-      {/* Logo Part */}
+    <div className="w-full flex items-center justify-between px-4 py-2 bg-primary">
+      {/* First part: Logo Part */}
       <Link href={"/"}>
         <p
-          className={`text-gray-500 font-semibold cursor-pointer border px-3 py-1 rounded-3xl border-gray-800 ${
+          className={`text-gray-400 font-semibold cursor-pointer border px-3 py-1 rounded-3xl border-secondary-border ${
             showFullSearch ? "hidden" : "flex"
           }`}
         >
@@ -23,7 +25,8 @@ const Header = ({}) => {
         </p>
       </Link>
 
-      {/* for Search bar*/}
+      {/* Middle Part for Search bar*/}
+
       <div>
         <SearchBox
           showFullSearch={showFullSearch}
@@ -32,7 +35,7 @@ const Header = ({}) => {
       </div>
 
       {/*Right part For search button and Theme Toggle button */}
-      <div>
+      <div className="flex gap-5 items-center">
         {/* search button */}
         <Button
           size={"icon"}
@@ -46,6 +49,11 @@ const Header = ({}) => {
         </Button>
 
         {/* Toggle button */}
+        {theme === "light" ? (
+          <Moon className="text-gray-300" onClick={() => setTheme("dark")} />
+        ) : (
+          <Sun className="text-yellow-400" onClick={() => setTheme("light")} />
+        )}
       </div>
     </div>
   );

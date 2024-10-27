@@ -11,7 +11,15 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        primary: "#121212",
+        primary: {
+          DEFAULT: colors.gray[800],
+          bg: colors.gray[400],
+          hover: colors.gray[300],
+          border: colors.gray[700],
+          text: colors.gray[300],
+          dark: colors.gray[800],
+          ["dark-hover"]: colors.gray[900],
+        },
         secondary: {
           DEFAULT: colors.gray[200],
           bg: colors.gray[400],
