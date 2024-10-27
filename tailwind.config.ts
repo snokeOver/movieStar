@@ -13,10 +13,10 @@ const config: Config = {
       colors: {
         primary: {
           DEFAULT: colors.gray[800],
-          bg: colors.gray[400],
-          hover: colors.gray[300],
-          border: colors.gray[700],
-          text: colors.gray[300],
+          bg: colors.sky[400],
+          hover: colors.sky[300],
+          border: colors.sky[700],
+          text: colors.sky[300],
           dark: colors.gray[800],
           ["dark-hover"]: colors.gray[900],
         },
