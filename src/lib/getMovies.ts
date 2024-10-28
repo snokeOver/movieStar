@@ -73,9 +73,9 @@ export const getCastOfMovies = async (id?: string) => {
   return data;
 };
 
-export const getNowPlaying = async () => {
+export const getRecommendedMovies = async (id?: string) => {
   const url = new URL(
-    "https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=1"
+    `https://api.themoviedb.org/3/movie/${id}/recommendations`
   );
 
   const data = await fetcher(url);

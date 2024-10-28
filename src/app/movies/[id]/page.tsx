@@ -1,4 +1,9 @@
-import { getCastOfMovies, getMovieDetails } from "@/lib/getMovies";
+import SectionContainer from "@/components/SectionContainer";
+import {
+  getCastOfMovies,
+  getMovieDetails,
+  getRecommendedMovies,
+} from "@/lib/getMovies";
 import { getImagePath } from "@/lib/helpers";
 import { MovieDetailsProps } from "@/type_interface/interfaces";
 
@@ -12,6 +17,7 @@ export const metadata: Metadata = {
 const MovieDetails = async ({ params: { id } }: MovieDetailsProps) => {
   const currMovie = await getMovieDetails(id);
   const { cast } = await getCastOfMovies(id);
+  const recommendedMovies = await getRecommendedMovies(id);
 
   const {
     backdrop_path,
@@ -23,55 +29,63 @@ const MovieDetails = async ({ params: { id } }: MovieDetailsProps) => {
   }: any = currMovie;
 
   return (
-    <div className="py-10 flex flex-col lg:flex-row items-center gap-5 px-10 min-h-[500px]">
-      <div className="w-full lg:w-1/2  rounded-md overflow-hidden group  flex-1">
-        <Image
-          src={getImagePath(backdrop_path)}
-          alt={title}
-          width={1920}
-          height={1080}
-          className="w-full h-full object-cover shadow-md shadow-gray-900 drop-shadow-xl group-hover:scale-110 duration-500"
-        />
-      </div>
-      <div className="w-full lg:w-1/2 flex flex-col gap-2 flex-1 h-auto ">
-        <h2 className="text-2xl font-semibold underline decoration-[1px]">
-          {original_title}
-        </h2>
-        <p className="text-sm leading-6 tracking-wide mt-2 flex-grow">
-          {overview}
-        </p>
+    <div className="py-10 px-10 min-h-[500px]">
+      <section className=" flex flex-col lg:flex-row items-center gap-5">
+        <div className="w-full lg:w-1/2  rounded-md overflow-hidden group  flex-1">
+          <Image
+            src={getImagePath(backdrop_path)}
+            alt={title}
+            width={1920}
+            height={1080}
+            className="w-full h-full object-cover shadow-md shadow-gray-900 drop-shadow-xl group-hover:scale-110 duration-500"
+          />
+        </div>
+        <div className="w-full lg:w-1/2 flex flex-col gap-2 flex-1 h-auto ">
+          <h2 className="text-2xl font-semibold underline decoration-[1px]">
+            {original_title}
+          </h2>
+          <p className="text-sm leading-6 tracking-wide mt-2 flex-grow">
+            {overview}
+          </p>
 
-        <p className="text-gray-600 text-sm">
-          Genres:{" "}
-          {genres.map((item: any) => (
-            <span
-              key={item?.id}
-              className="text-secondary-text font-medium mr-1"
-            >
-              {item?.name},
+          <p className="text-gray-600 text-sm">
+            Genres:{" "}
+            {genres.map((item: any) => (
+              <span
+                key={item?.id}
+                className="text-secondary-text font-medium mr-1"
+              >
+                {item?.name},
+              </span>
+            ))}
+          </p>
+
+          <p className="text-gray-600 text-sm">
+            Release Data:{" "}
+            <span className="text-secondary-text font-medium">
+              {release_date}
             </span>
-          ))}
-        </p>
+          </p>
 
-        <p className="text-gray-600 text-sm">
-          Release Data:{" "}
-          <span className="text-secondary-text font-medium">
-            {release_date}
-          </span>
-        </p>
+          <p className="text-gray-600 text-sm">
+            Cast:
+            {cast.map((cast: any) => (
+              <span
+                key={cast?.id}
+                className="text-secondary-text font-medium mr-1"
+              >
+                {cast?.original_name},
+              </span>
+            ))}
+          </p>
+        </div>
+      </section>
 
-        <p className="text-gray-600 text-sm">
-          Cast:
-          {cast.map((cast: any) => (
-            <span
-              key={cast?.id}
-              className="text-secondary-text font-medium mr-1"
-            >
-              {cast?.original_name},
-            </span>
-          ))}
-        </p>
-      </div>
+      {/* Recommended movie section  */}
+      <SectionContainer
+        title="Our Recommended Movies"
+        movies={recommendedMovies}
+      />
     </div>
   );
 };

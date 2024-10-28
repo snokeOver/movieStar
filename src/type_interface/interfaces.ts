@@ -19,3 +19,9 @@ export interface MovieDetailsProps {
     id: string;
   };
 }
+
+export interface SectionContainerProps {
+  title: string;
+  isLoadingPopular?: boolean;
+  movies: Movie[];
+}
