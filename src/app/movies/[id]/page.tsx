@@ -1,7 +1,7 @@
 import { getMovieDetails } from "@/lib/getMovies";
 import { getImagePath } from "@/lib/helpers";
 import { MovieDetailsProps } from "@/type_interface/interfaces";
-import { VideoProps } from "@/type_interface/types";
+
 import { Metadata } from "next";
 import Image from "next/image";
 
@@ -26,7 +26,7 @@ const MovieDetails = async ({ params: { id } }: MovieDetailsProps) => {
   }: any = currMovie;
 
   return (
-    <div className="py-10 flex flex-col lg:flex-row items-center gap-5 px-10 ">
+    <div className="py-10 flex flex-col lg:flex-row items-center gap-5 px-10 min-h-[500px]">
       <div className="w-full lg:w-1/2  rounded-md overflow-hidden group  flex-1">
         <Image
           src={getImagePath(backdrop_path)}

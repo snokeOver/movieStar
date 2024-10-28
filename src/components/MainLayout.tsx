@@ -3,6 +3,7 @@
 import { useThemeStore } from "@/app/store/store";
 import Header from "./Header";
 import ThemeProvider from "./ThemeProvider";
+import Footer from "./Footer";
 
 const MainLayout = ({
   children,
@@ -19,6 +20,7 @@ const MainLayout = ({
     >
       <Header />
       {children}
+      <Footer />
     </ThemeProvider>
   );
 };
