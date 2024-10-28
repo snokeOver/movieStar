@@ -11,7 +11,7 @@ import { Input } from "./ui/input";
 import { useMovieStore } from "@/app/store/store";
 
 const SearchBox = ({ showFullSearch, setShowFullSearch }: SearchBoxProps) => {
-  const { fetchSearchedMovies, isLoadingPopular } = useMovieStore();
+  const { fetchSearchedMovies } = useMovieStore();
 
   // Schema for search form
   const formSchema = z.object({
@@ -62,7 +62,7 @@ const SearchBox = ({ showFullSearch, setShowFullSearch }: SearchBoxProps) => {
               <FormItem>
                 <FormControl>
                   <Input
-                    placeholder="Search ... "
+                    placeholder="Search by title ... "
                     {...field}
                     className="rounded-l-full border border-secondary-border text-lg py-1 px-4 w-full focus:border-blue-300 outline-none bg-gray-900 text-secondary-text"
                   />

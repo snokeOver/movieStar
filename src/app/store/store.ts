@@ -3,7 +3,8 @@ import {
   getSearchedMovies,
   getTopRatedMovies,
 } from "@/lib/getMovies";
-import { Movie } from "@/type_interface/types";
+import { addToWatchlist, removeFromWatchlist } from "@/lib/watchListActions";
+import { Movie, WMovie } from "@/type_interface/types";
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 
@@ -15,7 +16,7 @@ interface ThemeStore {
 export const useThemeStore = create(
   persist<ThemeStore>(
     (set) => ({
-      theme: "light", // default theme
+      theme: "dark", // default theme
       setTheme: (theme) => set({ theme }),
     }),
     {
@@ -24,6 +25,23 @@ export const useThemeStore = create(
     }
   )
 );
+
+interface WatchList {
+  isExist: boolean;
+  setIsExist: (exists: boolean) => void;
+  toastMsg: string;
+  setToastMsg: (msg: string) => void;
+}
+
+export const useWatchList = create<WatchList>((set) => ({
+  // WatchListExistance state
+  isExist: false,
+  setIsExist: (exists) => set({ isExist: exists }),
+
+  // ToastMessage state
+  toastMsg: "",
+  setToastMsg: (msg) => set({ toastMsg: msg }),
+}));
 
 interface MovieStore {
   topRatedMovies: Movie[];
@@ -35,6 +53,7 @@ interface MovieStore {
   hasMore: boolean;
   fetchTopRatedMovies: () => Promise<void>;
   fetchPopularMovies: (page: number) => Promise<void>;
+  fetchSearchedMovies: (query: string) => Promise<void>;
 }
 
 export const useMovieStore = create<MovieStore>((set) => ({
@@ -93,3 +112,35 @@ export const useMovieStore = create<MovieStore>((set) => ({
     }
   },
 }));
+
+interface WishListStore {
+  wishlist: WMovie[];
+  addToWishlist: (movie: WMovie) => Promise<void>;
+  removeFromWishlist: (movieId: string) => Promise<void>;
+}
+
+export const useWishListStore = create<WishListStore>()(
+  persist(
+    (set) => ({
+      wishlist: [],
+
+      addToWishlist: async (movie) => {
+        await addToWatchlist(movie); // Server action to add to watchlist
+        set((state) => ({
+          wishlist: [...state.wishlist, movie],
+        }));
+      },
+
+      removeFromWishlist: async (movieId: string) => {
+        await removeFromWatchlist(movieId); // Server action to remove from watchlist
+        set((state) => ({
+          wishlist: state.wishlist.filter((item) => item.id !== movieId),
+        }));
+      },
+    }),
+    {
+      name: "wishlist-storage",
+      storage: createJSONStorage(() => localStorage), // Persist wishlist in localStorage
+    }
+  )
+);

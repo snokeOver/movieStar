@@ -15,6 +15,14 @@ export type Movie = {
   vote_count: number;
 };
 
+export type WMovie = {
+  id: string;
+  backdrop_path: string;
+  title: string;
+  release_date: string;
+  genres: [];
+};
+
 export type CastMember = {
   id: number;
   original_name: string;

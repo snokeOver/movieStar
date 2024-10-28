@@ -25,3 +25,7 @@ export interface SectionContainerProps {
   isLoadingPopular?: boolean;
   movies: Movie[];
 }
+
+export interface WishListActionButtonsProps {
+  id: string;
+}

@@ -1,17 +1,18 @@
 "use client";
 
 import { Button } from "./ui/button";
-import { Moon, Search, Sun } from "lucide-react";
+import { Heart, Moon, Search, Sun } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import SearchBox from "./SearchBox";
 
 import Logo from "./Logo";
-import { useThemeStore } from "@/app/store/store";
+import { useThemeStore, useWishListStore } from "@/app/store/store";
 import { useTheme } from "next-themes";
 
 const Header = () => {
   const [showFullSearch, setShowFullSearch] = useState<boolean>(false);
   const { theme, setTheme } = useThemeStore();
+  const { wishlist } = useWishListStore();
 
   const { theme: providerTheme, setTheme: setProviderTheme } = useTheme();
 
@@ -69,6 +70,17 @@ const Header = () => {
         ) : (
           <Sun className="text-yellow-400" onClick={() => setTheme("light")} />
         )}
+
+        <Button
+          variant={"outline"}
+          className="text-secondary-dark dark:text-secondary relative pl-6"
+        >
+          <Heart className="text-primary-border" />
+          <span className="hidden lg:flex">Watch List</span>
+          <div className="absolute -top-[2px] -left-[2px] text-gray-800 border border-sky-700 rounded-full bg-sky-300">
+            <span className="px-[5px] font-semibold"> {wishlist.length}</span>
+          </div>
+        </Button>
       </div>
     </div>
   );

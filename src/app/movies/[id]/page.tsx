@@ -1,4 +1,5 @@
 import SectionContainer from "@/components/SectionContainer";
+import WishListActionButtons from "@/components/WishListActionButtons";
 import {
   getCastOfMovies,
   getMovieDetails,
@@ -16,6 +17,7 @@ export const metadata: Metadata = {
 
 const MovieDetails = async ({ params: { id } }: MovieDetailsProps) => {
   const currMovie = await getMovieDetails(id);
+
   const { cast } = await getCastOfMovies(id);
   const recommendedMovies = await getRecommendedMovies(id);
 
@@ -28,9 +30,11 @@ const MovieDetails = async ({ params: { id } }: MovieDetailsProps) => {
     genres,
   }: any = currMovie;
 
+  const wishedMovie = { backdrop_path, title, id, release_date, genres };
+
   return (
     <div className="py-10 px-10 min-h-[500px]">
-      <section className=" flex flex-col lg:flex-row items-center gap-5">
+      <section className=" flex flex-col lg:flex-row items-center gap-5 mb-20 lg:mb-32">
         <div className="w-full lg:w-1/2  rounded-md overflow-hidden group  flex-1">
           <Image
             src={getImagePath(backdrop_path)}
@@ -78,10 +82,13 @@ const MovieDetails = async ({ params: { id } }: MovieDetailsProps) => {
               </span>
             ))}
           </p>
+
+          <WishListActionButtons movie={wishedMovie} />
         </div>
       </section>
 
       {/* Recommended movie section  */}
+
       <SectionContainer
         title="Our Recommended Movies"
         movies={recommendedMovies}
