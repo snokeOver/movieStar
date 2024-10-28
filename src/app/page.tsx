@@ -1,62 +1,48 @@
 "use client";
 import Banner from "@/components/Banner";
+import LoadingSpinner from "@/components/LoadingSpinner";
+import Logo from "@/components/Logo";
 import MovieCard from "@/components/MovieCard";
-import { Button } from "@/components/ui/button";
+
 import { getPopularMovies, getTopRatedMovies } from "@/lib/getMovies";
 import { Movie } from "@/type_interface/types";
-import { Circle } from "lucide-react";
+
 import { useEffect, useState } from "react";
+import { useMovieStore } from "./store/store";
 
 const Home = () => {
-  const [topRatedMovies, setTopRatedMovies] = useState<Movie[]>([]);
-  const [popularMovies, setPopularMovies] = useState<Movie[]>([]);
-  console.log(popularMovies.length);
+  const {
+    topRatedMovies,
+    popularMovies,
+    isLoadingTopRated,
+    isLoadingPopular,
+    hasMore,
+    fetchTopRatedMovies,
+    fetchPopularMovies,
+  } = useMovieStore();
+  // console.log(popularMovies.length);
 
   const [page, setPage] = useState(1);
-  const [loading, setLoading] = useState(false);
-  const [hasMore, setHasMore] = useState(true);
-
-  // fetch the top rated movies only
-  const fetchTopRatedMovies = async () => {
-    const movies = await getTopRatedMovies();
-    const movies1 = await getPopularMovies(1);
-    setTopRatedMovies(movies);
-    setPopularMovies(movies1);
-  };
-
-  // Fetch the popular movies load more button
-  const fetchMovies = async (pageNumber: number) => {
-    setLoading(true);
-    const movies = await getPopularMovies(pageNumber);
-    setPopularMovies((prev) => [...prev, ...movies]);
-    setLoading(false);
-
-    // Check if there are more movies to load
-    if (movies.length < 20) {
-      // Assuming 20 is the limit per request
-      setHasMore(false);
-    }
-  };
-
-  useEffect(() => {
-    if (page > 1) fetchMovies(page);
-  }, [page]);
-
+  // console.log(page);
+  // Fetch movies on initial load
   useEffect(() => {
     fetchTopRatedMovies();
+    fetchPopularMovies(page);
   }, []);
 
-  // Load more movies when user scrolls to the bottom
+  // Load more movies when the page number changes
+  useEffect(() => {
+    if (page > 1) fetchPopularMovies(page);
+  }, [page]);
+
+  // Infinite scroll handler
   const handleScroll = () => {
     if (
-      window.innerHeight + document.documentElement.scrollTop !==
-        document.documentElement.offsetHeight ||
-      loading
-    )
-      return;
-
-    // If there's more to load, increment the page
-    if (hasMore) {
+      window.innerHeight + document.documentElement.scrollTop >=
+        document.documentElement.offsetHeight - 50 &&
+      !isLoadingPopular &&
+      hasMore
+    ) {
       setPage((prev) => prev + 1);
     }
   };
@@ -64,7 +50,15 @@ const Home = () => {
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [handleScroll]);
+  }, [isLoadingPopular, hasMore]);
+  if (isLoadingPopular && isLoadingTopRated) {
+    return (
+      <main className="flex flex-col gap-10 min-h-screen w-full items-center justify-center text-center">
+        <h2 className="text-4xl lg:text-7xl text-sky-500">Greetings</h2>
+        <Logo />
+      </main>
+    );
+  }
 
   return (
     <main>
@@ -80,18 +74,14 @@ const Home = () => {
             Our Popular Movies
           </h1>
         </div>
+        {isLoadingPopular && <LoadingSpinner />}
         <div className="grid gap-4 grid-cols-[repeat(auto-fill,minmax(300px,1fr))] p-7 lg:p-3">
           {popularMovies.map((movie, index) => (
             <MovieCard key={index.toString()} movie={movie} />
           ))}
         </div>
 
-        {loading && (
-          <div className="flex gap-3 w-full items-center justify-center">
-            <Circle className="animate-spin text-yellow-400 text-4xl" />
-            <span>Loading ...</span>
-          </div>
-        )}
+        {isLoadingPopular && <LoadingSpinner />}
       </section>
     </main>
   );

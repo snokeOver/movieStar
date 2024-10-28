@@ -10,7 +10,7 @@ import { useThemeStore } from "@/app/store/store";
 import { useTheme } from "next-themes";
 
 const Header = () => {
-  const [showFullSearch, setShowFullSearch] = useState(false);
+  const [showFullSearch, setShowFullSearch] = useState<boolean>(false);
   const { theme, setTheme } = useThemeStore();
 
   const { theme: providerTheme, setTheme: setProviderTheme } = useTheme();

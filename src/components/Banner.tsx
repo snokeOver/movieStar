@@ -8,14 +8,14 @@ import { getImagePath } from "@/lib/helpers";
 
 const Banner = ({ bannerMovies }: BannerProps) => {
   const [emblaRef] = useEmblaCarousel({ loop: false }, [Autoplay()]);
-  //   console.log(bannerMovies);
+
   return (
     <div
       className="embla overflow-hidden cursor-pointer relative"
       ref={emblaRef}
     >
       <div className="embla__container flex">
-        {bannerMovies.map((movie) => (
+        {bannerMovies?.map((movie) => (
           <div className="embla__slide relative" key={movie?.id.toString()}>
             <Image
               src={getImagePath(movie?.backdrop_path, true)}

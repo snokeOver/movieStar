@@ -1,9 +1,13 @@
 import { Movie } from "./types";
 
 export interface SearchBoxProps {
-  footer?: boolean;
+  showFullSearch: boolean;
+  setShowFullSearch: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export interface LogoProps {
   showFullSearch?: boolean;
-  setShowFullSearch?: React.Dispatch<React.SetStateAction<boolean>>;
+  footer?: boolean;
 }
 
 export interface BannerProps {

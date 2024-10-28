@@ -8,12 +8,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Input } from "./ui/input";
-import { useRouter } from "next/navigation";
+import { useMovieStore } from "@/app/store/store";
 
 const SearchBox = ({ showFullSearch, setShowFullSearch }: SearchBoxProps) => {
-  const router = useRouter();
+  const { fetchSearchedMovies, isLoadingPopular } = useMovieStore();
 
-  // Shema for search form
+  // Schema for search form
   const formSchema = z.object({
     input: z.string().min(2).max(30),
   });
@@ -26,9 +26,8 @@ const SearchBox = ({ showFullSearch, setShowFullSearch }: SearchBoxProps) => {
   });
 
   // Submit the form for search
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
-    console.log(values);
-    router.push(`/search/${values.input}`);
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    await fetchSearchedMovies(values.input);
     form.reset();
   };
 

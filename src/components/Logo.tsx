@@ -1,8 +1,8 @@
-import { SearchBoxProps } from "@/type_interface/interfaces";
+import { LogoProps } from "@/type_interface/interfaces";
 import { ArrowBigRightDash } from "lucide-react";
 import Link from "next/link";
 
-const Logo = ({ showFullSearch, footer = false }: SearchBoxProps) => {
+const Logo = ({ showFullSearch, footer = false }: LogoProps) => {
   return (
     <Link
       href={"/"}
@@ -13,7 +13,7 @@ const Logo = ({ showFullSearch, footer = false }: SearchBoxProps) => {
       }  ${showFullSearch ? "hidden" : "flex"} cursor-pointer`}
     >
       <p
-        className={`text-gray-400 font-semibold px-3 py-1 flex items-center justify-center `}
+        className={`text-gray-700 dark:text-gray-400 font-semibold px-3 py-1 flex items-center justify-center `}
       >
         <span>
           <ArrowBigRightDash className="text-sky-600 mr-1" />

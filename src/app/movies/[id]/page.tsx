@@ -43,28 +43,38 @@ const MovieDetails = async ({ params: { id } }: MovieDetailsProps) => {
         <p className="text-sm leading-6 tracking-wide mt-2 flex-grow">
           {overview}
         </p>
-        <p className="text-gray-200 text-sm mt-4">
-          IMDB: <span className="text-white font-medium">{vote_average}</span>
+        <p className="text-gray-600 text-sm mt-4">
+          IMDB:{" "}
+          <span className="text-secondary-text font-medium">
+            {vote_average}
+          </span>
         </p>
-        <p className="text-gray-200 text-sm">
-          Votes: <span className="text-white font-medium">{vote_count}</span>
+        <p className="text-gray-600 text-sm">
+          Votes:{" "}
+          <span className="text-secondary-text font-medium">{vote_count}</span>
         </p>
-        <p className="text-gray-200 text-sm">
+        <p className="text-gray-600 text-sm">
           Release Data:{" "}
-          <span className="text-white font-medium">{release_date}</span>
+          <span className="text-secondary-text font-medium">
+            {release_date}
+          </span>
         </p>
-        <p className="text-gray-200 text-sm">
+        <p className="text-gray-600 text-sm">
           Genres:{" "}
           {genres.map((item: any) => (
-            <span key={item?.id} className="text-white font-medium mr-1">
+            <span
+              key={item?.id}
+              className="text-secondary-text font-medium mr-1"
+            >
               {item?.name},
             </span>
           ))}
         </p>
-        <p className="text-gray-200 text-sm">
-          Tag Line: <span className="text-white font-medium">{tagline}</span>
+        <p className="text-gray-600 text-sm">
+          Tag Line:{" "}
+          <span className="text-secondary-text font-medium">{tagline}</span>
         </p>
-        <p className="text-gray-200 text-sm">
+        <p className="text-gray-600 text-sm">
           Status:{" "}
           <span
             className={`font-medium ${

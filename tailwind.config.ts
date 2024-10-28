@@ -25,7 +25,7 @@ const config: Config = {
           bg: colors.gray[400],
           hover: colors.gray[300],
           border: colors.gray[700],
-          text: colors.gray[300],
+          text: colors.gray[400],
           dark: colors.gray[800],
           ["dark-hover"]: colors.gray[900],
         },
