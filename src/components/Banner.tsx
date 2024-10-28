@@ -16,10 +16,10 @@ const Banner = ({ bannerMovies }: BannerProps) => {
     >
       <div className="embla__container flex">
         {bannerMovies.map((movie) => (
-          <div className="embla__slide relative" key={movie.original_title}>
+          <div className="embla__slide relative" key={movie?.id.toString()}>
             <Image
-              src={getImagePath(movie.backdrop_path, true)}
-              alt={movie.original_title}
+              src={getImagePath(movie?.backdrop_path, true)}
+              alt={movie?.original_title}
               width={1920}
               height={1080}
               className="embla__slide"

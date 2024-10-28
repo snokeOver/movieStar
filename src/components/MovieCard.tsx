@@ -19,7 +19,7 @@ const MovieCard = ({ movie }: MovieWrapper) => {
 
   //   Handle the view details button click
   const handleButton = (id: number) => {
-    router.push(`/movie/${id}`);
+    router.push(`/movies/${id}`);
   };
   return (
     <Card className=" flex-shrink-0 cursor-pointer transform hover:scale-105 transition duration-500 ease-out hover:drop-shadow-lg">

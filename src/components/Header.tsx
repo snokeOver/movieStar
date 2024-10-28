@@ -1,29 +1,44 @@
 "use client";
 
-import Link from "next/link";
-
-import { Button } from "./button";
+import { Button } from "./ui/button";
 import { Moon, Search, Sun } from "lucide-react";
-import { useState } from "react";
-import SearchBox from "../SearchBox";
+import { useEffect, useRef, useState } from "react";
+import SearchBox from "./SearchBox";
+
+import Logo from "./Logo";
+import { useThemeStore } from "@/app/store/store";
 import { useTheme } from "next-themes";
 
-const Header = ({}) => {
+const Header = () => {
   const [showFullSearch, setShowFullSearch] = useState(false);
-  const { theme, setTheme } = useTheme();
+  const { theme, setTheme } = useThemeStore();
+
+  const { theme: providerTheme, setTheme: setProviderTheme } = useTheme();
+
+  // To prevent infinite loop
+  const isInitialSync = useRef(true);
+
+  // Sync Zustand's theme with provider's theme on initial load
+  useEffect(() => {
+    if (isInitialSync.current) {
+      if (providerTheme && providerTheme !== theme) {
+        setTheme(providerTheme);
+      }
+      isInitialSync.current = false; // Set to false after initial sync
+    }
+  }, [providerTheme, theme, setTheme]);
+
+  // Update provider theme when Zustand theme changes
+  useEffect(() => {
+    if (theme !== providerTheme) {
+      setProviderTheme(theme);
+    }
+  }, [theme, providerTheme, setProviderTheme]);
 
   return (
     <div className="w-full flex items-center justify-between px-4 py-2 bg-[#12121280] sticky z-50 top-0 backdrop-blur-2xl transition-colors">
       {/* First part: Logo Part */}
-      <Link href={"/"}>
-        <p
-          className={`text-gray-400 font-semibold cursor-pointer border px-3 py-1 rounded-3xl border-secondary-border ${
-            showFullSearch ? "hidden" : "flex"
-          }`}
-        >
-          Movie<span className="text-sky-600">Star</span>
-        </p>
-      </Link>
+      <Logo showFullSearch={showFullSearch} />
 
       {/* Middle Part for Search bar*/}
 
