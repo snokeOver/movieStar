@@ -15,11 +15,17 @@ export type Movie = {
   vote_count: number;
 };
 
+export type CastMember = {
+  id: number;
+  original_name: string;
+};
+
 export type SearchResults = {
   page: number;
   results: Movie[];
   total_pages: number;
   total_results: number;
+  cast: CastMember[];
 };
 
 export type Genre = {

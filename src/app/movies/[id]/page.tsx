@@ -1,4 +1,4 @@
-import { getMovieDetails } from "@/lib/getMovies";
+import { getCastOfMovies, getMovieDetails } from "@/lib/getMovies";
 import { getImagePath } from "@/lib/helpers";
 import { MovieDetailsProps } from "@/type_interface/interfaces";
 
@@ -11,17 +11,14 @@ export const metadata: Metadata = {
 
 const MovieDetails = async ({ params: { id } }: MovieDetailsProps) => {
   const currMovie = await getMovieDetails(id);
+  const { cast } = await getCastOfMovies(id);
 
   const {
     backdrop_path,
     title,
     original_title,
     overview,
-    vote_average,
-    vote_count,
     release_date,
-    tagline,
-    status,
     genres,
   }: any = currMovie;
 
@@ -43,22 +40,7 @@ const MovieDetails = async ({ params: { id } }: MovieDetailsProps) => {
         <p className="text-sm leading-6 tracking-wide mt-2 flex-grow">
           {overview}
         </p>
-        <p className="text-gray-600 text-sm mt-4">
-          IMDB:{" "}
-          <span className="text-secondary-text font-medium">
-            {vote_average}
-          </span>
-        </p>
-        <p className="text-gray-600 text-sm">
-          Votes:{" "}
-          <span className="text-secondary-text font-medium">{vote_count}</span>
-        </p>
-        <p className="text-gray-600 text-sm">
-          Release Data:{" "}
-          <span className="text-secondary-text font-medium">
-            {release_date}
-          </span>
-        </p>
+
         <p className="text-gray-600 text-sm">
           Genres:{" "}
           {genres.map((item: any) => (
@@ -70,23 +52,31 @@ const MovieDetails = async ({ params: { id } }: MovieDetailsProps) => {
             </span>
           ))}
         </p>
+
         <p className="text-gray-600 text-sm">
-          Tag Line:{" "}
-          <span className="text-secondary-text font-medium">{tagline}</span>
-        </p>
-        <p className="text-gray-600 text-sm">
-          Status:{" "}
-          <span
-            className={`font-medium ${
-              status === "Released" ? "text-green-500" : "text-red-500"
-            }`}
-          >
-            {status}
+          Release Data:{" "}
+          <span className="text-secondary-text font-medium">
+            {release_date}
           </span>
+        </p>
+
+        <p className="text-gray-600 text-sm">
+          Cast:
+          {cast.map((cast: any) => (
+            <span
+              key={cast?.id}
+              className="text-secondary-text font-medium mr-1"
+            >
+              {cast?.original_name},
+            </span>
+          ))}
         </p>
       </div>
     </div>
   );
 };
+
+// Exporting revalidate settings directly from the page component
+export const revalidate = 60; // Revalidate every 60 seconds
 
 export default MovieDetails;

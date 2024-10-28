@@ -59,6 +59,20 @@ export const getSearchedMovies = async (query: string) => {
   }
 };
 
+export const getMovieDetails = async (id?: string) => {
+  const url = new URL(`https://api.themoviedb.org/3/movie/${id}`);
+
+  const data = await fetcher(url);
+  return data;
+};
+
+export const getCastOfMovies = async (id?: string) => {
+  const url = new URL(`https://api.themoviedb.org/3/movie/${id}/credits`);
+
+  const data = await fetcher(url);
+  return data;
+};
+
 export const getNowPlaying = async () => {
   const url = new URL(
     "https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=1"
@@ -79,10 +93,4 @@ export const getMovieVideos = async (id?: string) => {
 
   const data = await fetcher(url);
   return data.results;
-};
-export const getMovieDetails = async (id?: string) => {
-  const url = new URL(`https://api.themoviedb.org/3/movie/${id}`);
-
-  const data = await fetcher(url);
-  return data;
 };
