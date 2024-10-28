@@ -8,11 +8,13 @@ import SearchBox from "./SearchBox";
 import Logo from "./Logo";
 import { useThemeStore, useWishListStore } from "@/app/store/store";
 import { useTheme } from "next-themes";
+import { useRouter } from "next/navigation";
 
 const Header = () => {
   const [showFullSearch, setShowFullSearch] = useState<boolean>(false);
   const { theme, setTheme } = useThemeStore();
   const { wishlist } = useWishListStore();
+  const router = useRouter();
 
   const { theme: providerTheme, setTheme: setProviderTheme } = useTheme();
 
@@ -72,6 +74,7 @@ const Header = () => {
         )}
 
         <Button
+          onClick={() => router.push("/watchlist")}
           variant={"outline"}
           className="text-secondary-dark dark:text-secondary relative pl-6"
         >
