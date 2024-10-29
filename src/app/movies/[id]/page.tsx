@@ -7,6 +7,7 @@ import {
 } from "@/lib/getMovies";
 import { getImagePath } from "@/lib/helpers";
 import { MovieDetailsProps } from "@/type_interface/interfaces";
+import { CastMember, Genre } from "@/type_interface/types";
 
 import { Metadata } from "next";
 import Image from "next/image";
@@ -21,6 +22,11 @@ const MovieDetails = async ({ params: { id } }: MovieDetailsProps) => {
   const { cast } = await getCastOfMovies(id);
   const recommendedMovies = await getRecommendedMovies(id);
 
+  if (!currMovie) {
+    console.error("Movie details not found");
+    return;
+  }
+
   const {
     backdrop_path,
     title,
@@ -28,7 +34,7 @@ const MovieDetails = async ({ params: { id } }: MovieDetailsProps) => {
     overview,
     release_date,
     genres,
-  }: any = currMovie;
+  } = currMovie;
 
   const wishedMovie = { backdrop_path, title, id, release_date, genres };
 
@@ -54,7 +60,7 @@ const MovieDetails = async ({ params: { id } }: MovieDetailsProps) => {
 
           <p className="text-gray-600 text-sm">
             Genres:{" "}
-            {genres.map((item: any) => (
+            {genres.map((item: Genre) => (
               <span
                 key={item?.id}
                 className="text-secondary-text font-medium mr-1"
@@ -73,7 +79,7 @@ const MovieDetails = async ({ params: { id } }: MovieDetailsProps) => {
 
           <p className="text-gray-600 text-sm">
             Cast:
-            {cast.map((cast: any) => (
+            {cast.map((cast: CastMember) => (
               <span
                 key={cast?.id}
                 className="text-secondary-text font-medium mr-1"

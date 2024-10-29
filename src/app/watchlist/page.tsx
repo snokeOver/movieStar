@@ -41,6 +41,7 @@ const WatchList = () => {
       setToastMsg("suc Movie removed!");
       setIsExist(false);
     } catch (error) {
+      console.log(error);
       setToastMsg("err Failed ! try again.");
       setOptimisticWishList(backupWishlist);
     }

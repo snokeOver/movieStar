@@ -1,4 +1,3 @@
-import { Movie } from "@/type_interface/types";
 import LoadingSpinner from "./LoadingSpinner";
 import MovieCard from "./MovieCard";
 import { SectionContainerProps } from "@/type_interface/interfaces";

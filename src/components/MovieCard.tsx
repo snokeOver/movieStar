@@ -5,7 +5,7 @@ import { getImagePath } from "@/lib/helpers";
 import { Movie } from "@/type_interface/types";
 import Image from "next/image";
 import { Button } from "./ui/button";
-import { Eye, Heart } from "lucide-react";
+import { Eye } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 interface MovieWrapper {

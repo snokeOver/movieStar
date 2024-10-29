@@ -20,7 +20,7 @@ export type WMovie = {
   backdrop_path: string;
   title: string;
   release_date: string;
-  genres: [];
+  genres: Genre[];
 };
 
 export type CastMember = {
@@ -60,4 +60,13 @@ export type VideoProps = {
 
 export type Videos = {
   videos: VideoProps[];
+};
+
+export type CurrMovieDetails = {
+  backdrop_path: string;
+  title: string;
+  original_title: string;
+  overview: string;
+  release_date: string;
+  genres: Genre[];
 };

@@ -84,7 +84,7 @@ export const useMovieStore = create<MovieStore>((set) => ({
     try {
       const movies = await getSearchedMovies(query);
 
-      set((state) => ({
+      set(() => ({
         popularMovies: movies,
         isLoadingPopular: false,
       }));
