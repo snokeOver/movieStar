@@ -9,9 +9,12 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Input } from "./ui/input";
 import { useMovieStore } from "@/app/store/store";
+import { usePathname, useRouter } from "next/navigation";
 
 const SearchBox = ({ showFullSearch, setShowFullSearch }: SearchBoxProps) => {
   const { fetchSearchedMovies } = useMovieStore();
+  const router = useRouter();
+  const pathname = usePathname();
 
   // Schema for search form
   const formSchema = z.object({
@@ -25,8 +28,22 @@ const SearchBox = ({ showFullSearch, setShowFullSearch }: SearchBoxProps) => {
     },
   });
 
+  // Delayed scroll for smooth behavior
+  const delaydScroll = () => {
+    setTimeout(() => {
+      document.getElementById("popular-movies-section")?.scrollIntoView({
+        behavior: "smooth",
+      });
+    }, 400);
+  };
+
   // Submit the form for search
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    if (pathname !== "/") {
+      router.push("/");
+      delaydScroll();
+    } else delaydScroll();
+
     await fetchSearchedMovies(values.input);
     form.reset();
   };

@@ -1,12 +1,7 @@
 "use client";
+
 import Banner from "@/components/Banner";
-import LoadingSpinner from "@/components/LoadingSpinner";
 import Logo from "@/components/Logo";
-import MovieCard from "@/components/MovieCard";
-
-import { getPopularMovies, getTopRatedMovies } from "@/lib/getMovies";
-import { Movie } from "@/type_interface/types";
-
 import { useEffect, useState } from "react";
 import { useMovieStore } from "./store/store";
 import SectionContainer from "@/components/SectionContainer";
@@ -68,11 +63,13 @@ const Home = () => {
 
       {/* Movie seciton */}
 
-      <SectionContainer
-        title="Popular Movies"
-        isLoadingPopular={isLoadingPopular}
-        movies={popularMovies}
-      />
+      <div id="popular-movies-section">
+        <SectionContainer
+          title="Popular Movies"
+          isLoadingPopular={isLoadingPopular}
+          movies={popularMovies}
+        />
+      </div>
     </main>
   );
 };

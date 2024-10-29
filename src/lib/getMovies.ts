@@ -50,8 +50,9 @@ export const getSearchedMovies = async (query: string) => {
     `https://api.themoviedb.org/3/search/movie?query=${query}`
   );
 
+  // No cashing for search result
   try {
-    const data = await fetcher(url);
+    const data = await fetcher(url, 0);
     return data.results;
   } catch (error) {
     console.log(error);
@@ -77,19 +78,6 @@ export const getRecommendedMovies = async (id?: string) => {
   const url = new URL(
     `https://api.themoviedb.org/3/movie/${id}/recommendations`
   );
-
-  const data = await fetcher(url);
-  return data.results;
-};
-
-export const getUpcomingMovies = async () => {
-  const url = new URL("https://api.themoviedb.org/3/movie/upcoming");
-  const data = await fetcher(url);
-  return data.results;
-};
-
-export const getMovieVideos = async (id?: string) => {
-  const url = new URL(`https://api.themoviedb.org/3/movie/${id}/videos`);
 
   const data = await fetcher(url);
   return data.results;
