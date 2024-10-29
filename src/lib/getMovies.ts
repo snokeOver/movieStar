@@ -15,7 +15,8 @@ const fetcher = async (url: URL, cacheTime?: number) => {
       Authorization: `Bearer ${api_key}`,
     },
     next: {
-      revalidate: cacheTime || 60 * 60 * 24,
+      cache: "force-cache",
+      revalidate: cacheTime || 3600,
     },
   };
   const response = await fetch(url.toString(), options);
@@ -25,12 +26,20 @@ const fetcher = async (url: URL, cacheTime?: number) => {
   return data;
 };
 
+// To get top rated movies for banner cashed for 24 hour
 export const getTopRatedMovies = async () => {
   const url = new URL("https://api.themoviedb.org/3/movie/top_rated");
-  const data = await fetcher(url);
-  return data.results;
+
+  try {
+    const data = await fetcher(url, 86400);
+    return data.results;
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
 };
 
+// To get popular movies for popular section, cashed for 1 hour
 export const getPopularMovies = async (pageId: number) => {
   const url = new URL(
     `https://api.themoviedb.org/3/movie/popular?language=en-US&page=${pageId}`
@@ -45,6 +54,7 @@ export const getPopularMovies = async (pageId: number) => {
   }
 };
 
+// To get searched movies for popular section, no cashing
 export const getSearchedMovies = async (query: string) => {
   const url = new URL(
     `https://api.themoviedb.org/3/search/movie?query=${query}`
@@ -60,25 +70,43 @@ export const getSearchedMovies = async (query: string) => {
   }
 };
 
+// To get movie details for Details page, cashed for 1 hour
 export const getMovieDetails = async (id?: string) => {
   const url = new URL(`https://api.themoviedb.org/3/movie/${id}`);
 
-  const data = await fetcher(url);
-  return data;
+  try {
+    const data = await fetcher(url);
+    return data;
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
 };
 
+// To get casts of movie for Details page, cashed for 1 hour
 export const getCastOfMovies = async (id?: string) => {
   const url = new URL(`https://api.themoviedb.org/3/movie/${id}/credits`);
 
-  const data = await fetcher(url);
-  return data;
+  try {
+    const data = await fetcher(url);
+    return data;
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
 };
 
+// To get recommended movies for Details page, cashed for 1 minutes
 export const getRecommendedMovies = async (id?: string) => {
   const url = new URL(
     `https://api.themoviedb.org/3/movie/${id}/recommendations`
   );
 
-  const data = await fetcher(url);
-  return data.results;
+  try {
+    const data = await fetcher(url, 60);
+    return data.results;
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
 };
