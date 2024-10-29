@@ -9,7 +9,7 @@
 - **_Set Up The Environment Variables_**: Don't forget to set up the environment variables with your own credentials needed to run this projects. Most variable are defined in .env file.
 
 <h2>Live Site URL</h2>
-<p>Cick here for live website: <a href="#">#</a></p>
+<p>Cick here for live website: <a href="https://movie-star-two.vercel.app/">https://movie-star-two.vercel.app/</a></p>
 
 <h2>Features and Characteristics</h2>
 
