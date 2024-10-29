@@ -41,7 +41,7 @@ const WishListActionButtons = ({ movie }: { movie: WMovie }) => {
         disabled={!isExist}
       >
         <Trash className="text-primary-bg" />{" "}
-        {isExist ? "Remove from Watch List" : "Not Added Yet"}
+        {isExist ? "Remove" : "Not Added Yet"}
       </Button>
       <Button
         onClick={() => handleAddClick()}

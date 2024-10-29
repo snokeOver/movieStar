@@ -39,9 +39,9 @@ const MovieDetails = async ({ params: { id } }: MovieDetailsProps) => {
   const wishedMovie = { backdrop_path, title, id, release_date, genres };
 
   return (
-    <div className="py-10 px-10 min-h-[500px]">
+    <div className="py-10 px-3 md:px-10 min-h-[500px]">
       <section className=" flex flex-col lg:flex-row items-center gap-5 mb-20 lg:mb-32">
-        <div className="w-full lg:w-1/2  rounded-md overflow-hidden group  flex-1">
+        <div className="w-full rounded-md overflow-hidden group  flex-1">
           <Image
             src={getImagePath(backdrop_path)}
             alt={title}
@@ -50,7 +50,7 @@ const MovieDetails = async ({ params: { id } }: MovieDetailsProps) => {
             className="w-full h-full object-cover shadow-md shadow-gray-900 drop-shadow-xl group-hover:scale-110 duration-500"
           />
         </div>
-        <div className="w-full lg:w-1/2 flex flex-col gap-2 flex-1 h-auto ">
+        <div className="w-full flex flex-col gap-2 flex-1 h-auto ">
           <h2 className="text-2xl font-semibold underline decoration-[1px]">
             {original_title}
           </h2>
@@ -89,16 +89,15 @@ const MovieDetails = async ({ params: { id } }: MovieDetailsProps) => {
             ))}
           </p>
 
-          <WishListActionButtons movie={wishedMovie} />
+          <div>
+            <WishListActionButtons movie={wishedMovie} />
+          </div>
         </div>
       </section>
 
       {/* Recommended movie section  */}
 
-      <SectionContainer
-        title="Our Recommended Movies"
-        movies={recommendedMovies}
-      />
+      <SectionContainer title="Recommended Movies" movies={recommendedMovies} />
     </div>
   );
 };
