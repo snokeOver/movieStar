@@ -6,9 +6,7 @@ import { useWatchList, useWishListStore } from "../store/store";
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
-  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
@@ -16,20 +14,39 @@ import {
 import { getImagePath } from "@/lib/helpers";
 import { Button } from "@/components/ui/button";
 import { Trash } from "lucide-react";
+import { useOptimistic, useState } from "react";
+import { WMovie } from "@/type_interface/types";
 
 const WatchList = () => {
   const { wishlist, removeFromWishlist } = useWishListStore();
 
   const { setIsExist, setToastMsg } = useWatchList();
 
-  //   Handle the view details button click
+  // Set up optimistic UI for wishlist
+  const [backupWishlist, setBackupWishlist] = useState<WMovie[]>(wishlist);
+  const [optimisticWishList, setOptimisticWishList] = useOptimistic(
+    wishlist,
+    (currentWishlist, updatedWishlist: WMovie[]) => updatedWishlist
+  );
+
+  // Handle the remove wish list button click with optimistic update
   const handleOnDeleteClick = async (id: string) => {
-    await removeFromWishlist(id);
-    setToastMsg("suc Movie deleted !");
-    setIsExist(false);
+    setBackupWishlist(optimisticWishList);
+    setOptimisticWishList(
+      optimisticWishList.filter((movie) => movie.id !== id)
+    );
+
+    try {
+      await removeFromWishlist(id.toString());
+      setToastMsg("suc Movie removed!");
+      setIsExist(false);
+    } catch (error) {
+      setToastMsg("err Failed ! try again.");
+      setOptimisticWishList(backupWishlist);
+    }
   };
 
-  if (wishlist.length < 1) {
+  if (optimisticWishList.length < 1) {
     return (
       <div className="container mx-auto text-3xl lg:text-5xl font-bold text-primary-bg min-h-[600px] flex items-center justify-center">
         <h1> Your watch list is empty !</h1>
@@ -49,7 +66,7 @@ const WatchList = () => {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {wishlist?.map((movie) => (
+        {optimisticWishList?.map((movie) => (
           <TableRow key={movie.id}>
             <TableCell className="">
               <Image
